@@ -1,6 +1,6 @@
 node_modules
 
-proto/Riemann.proto.js
-proto/Riemann.proto.d.ts
+proto/Riemann.js
+proto/Riemann.d.ts
 
 lib

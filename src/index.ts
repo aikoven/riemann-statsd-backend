@@ -1,5 +1,5 @@
 import {createSocket} from './transport';
-import {Msg, IEvent} from '../proto/Riemann.proto';
+import {Msg, IEvent} from '../proto/Riemann';
 
 interface Config {
   riemann?: {

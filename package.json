@@ -13,8 +13,8 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf lib",
-    "build:proto-js": "pbjs -t static-module -w commonjs -o proto/Riemann.proto.js proto/Riemann.proto",
-    "build:proto-ts": "pbts -o proto/Riemann.proto.d.ts proto/Riemann.proto.js",
+    "build:proto-js": "pbjs -t static-module -w commonjs -o proto/Riemann.js proto/Riemann.proto",
+    "build:proto-ts": "pbts -o proto/Riemann.d.ts proto/Riemann.js",
     "build:proto": "npm run build:proto-js && npm run build:proto-ts",
     "build:ts": "tsc",
     "build": "npm run build:proto && npm run build:ts",
