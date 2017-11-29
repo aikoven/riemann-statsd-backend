@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["es2015"],
+    "outDir": "lib",
+    "sourceMap": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["*", "custom_typings/*"]
+    }
+  },
+  "files": [
+    "custom_typings/statsd-backend.d.ts",
+    "src/index.ts"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "riemann-statsd-backend",
+  "version": "0.1.0",
+  "description": "StatsD backend for Riemann",
+  "main": "lib/index.js",
+  "files": [
+    "src",
+    "lib",
+    "proto"
+  ],
+  "repository": "https://github.com/aikoven/riemann-statsd-backend",
+  "author": "Daniel Lytkin <dan.lytkin@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build:proto-js": "pbjs -t static-module -w commonjs -o proto/Riemann.proto.js proto/Riemann.proto",
+    "build:proto-ts": "pbts -o proto/Riemann.proto.d.ts proto/Riemann.proto.js",
+    "build:proto": "npm run build:proto-js && npm run build:proto-ts",
+    "build:ts": "tsc",
+    "build": "npm run build:proto && npm run build:ts"
+  },
+  "dependencies": {
+    "protobufjs": "~6.8.2"
+  },
+  "devDependencies": {
+    "typescript": "~2.6.2"
+  }
+}
