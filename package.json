@@ -12,16 +12,19 @@
   "author": "Daniel Lytkin <dan.lytkin@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "clean": "rimraf lib",
     "build:proto-js": "pbjs -t static-module -w commonjs -o proto/Riemann.proto.js proto/Riemann.proto",
     "build:proto-ts": "pbts -o proto/Riemann.proto.d.ts proto/Riemann.proto.js",
     "build:proto": "npm run build:proto-js && npm run build:proto-ts",
     "build:ts": "tsc",
-    "build": "npm run build:proto && npm run build:ts"
+    "build": "npm run build:proto && npm run build:ts",
+    "prepare": "npm run clean && npm run build"
   },
   "dependencies": {
     "protobufjs": "~6.8.2"
   },
   "devDependencies": {
+    "rimraf": "^2.6.2",
     "typescript": "~2.6.2"
   }
 }
