@@ -16,7 +16,7 @@ Sends StatsD stats on each flush to Riemann.
   "riemann": {
     "host": "127.0.0.1",
     "port": 5555,
-    "transport": "udp",  // tcp not supported yet
+    "transport": "udp",  // "udp" or "tcp"
     "tags": ["some", "tags"],
     "ttl": 60  // ttl seconds, optional
   }

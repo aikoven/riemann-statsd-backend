@@ -24,14 +24,17 @@ export function createQueue(
   }
 
   function put(event: IEvent) {
-    const size = Event.encode(event).len;
+    if (maxBytes !== Infinity) {
+      const size = Event.encode(event).len;
 
-    if (totalBytes + size > maxBytes && events.length > 0) {
-      flush();
+      if (totalBytes + size > maxBytes && events.length > 0) {
+        flush();
+      }
+
+      totalBytes += size;
     }
 
     events.push(event);
-    totalBytes += size;
   }
 
   return {put, flush};
