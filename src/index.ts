@@ -1,5 +1,6 @@
 import {createSocket} from './transport';
 import {Msg, IEvent} from '../proto/Riemann';
+import {createQueue} from './queue';
 
 interface Config {
   riemann?: {
@@ -49,17 +50,21 @@ export const init: StatsdBackend<Config> = (
 
   const socket = createSocket(transport, host, port, logger);
 
+  const queue = createQueue(events => {
+    // type cast to any because of the wrong Buffer type in protobufjs
+    const message = Msg.encode({events}).finish() as any;
+    socket.send(message);
+  }, transport === 'udp' ? 15000 : Infinity);
+
   events.on('flush', (timestamp, metrics) => {
     const {timers, gauges, counter_rates} = metrics;
-
-    const riemannEvents: IEvent[] = [];
 
     for (const name of Object.keys(gauges)) {
       if (name.startsWith('statsd.')) {
         continue;
       }
 
-      riemannEvents.push(createEvent(timestamp, name, gauges[name]));
+      queue.put(createEvent(timestamp, name, gauges[name]));
     }
 
     for (const name of Object.keys(timers)) {
@@ -68,7 +73,7 @@ export const init: StatsdBackend<Config> = (
       }
 
       for (const metric of timers[name]) {
-        riemannEvents.push(createEvent(timestamp, name, metric));
+        queue.put(createEvent(timestamp, name, metric));
       }
     }
 
@@ -77,13 +82,10 @@ export const init: StatsdBackend<Config> = (
         continue;
       }
 
-      riemannEvents.push(createEvent(timestamp, name, counter_rates[name]));
+      queue.put(createEvent(timestamp, name, counter_rates[name]));
     }
 
-    // type cast to any because of the wrong Buffer type in protobufjs
-    const message = Msg.encode({events: riemannEvents}).finish() as any;
-
-    socket.send(message);
+    queue.flush();
   });
 
   return true;

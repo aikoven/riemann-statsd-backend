@@ -38,6 +38,9 @@ function createUdpSocket(
 
   return {
     send(message) {
+      logger.log(
+        `Sending message to ${host}:${port} of size ${message.length}`,
+      );
       socket.send(message, 0, message.length, port, host, sendCallback);
     },
   };
