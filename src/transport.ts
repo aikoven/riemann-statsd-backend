@@ -32,7 +32,7 @@ function createUdpSocket(
 
   const sendCallback = (error: Error | null) => {
     if (error) {
-      logger.log(`Failed to send message:\n${error}`, 'ERR');
+      logger.log(`Failed to send message:\n\t${error}`, 'ERR');
     }
   };
 
