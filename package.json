@@ -1,6 +1,6 @@
 {
   "name": "riemann-statsd-backend",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "StatsD backend for Riemann",
   "main": "lib/index.js",
   "files": [
