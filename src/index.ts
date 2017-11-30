@@ -34,15 +34,11 @@ export const init: StatsdBackend<Config> = (
   }
 
   function createEvent(time: number, name: string, metric: number): IEvent {
-    const [metricSint64, metricF] = Number.isInteger(metric)
-      ? [metric, undefined]
-      : [undefined, metric];
     return {
       time,
       state: 'ok',
       service: name,
-      metricSint64,
-      metricF,
+      metricF: metric,
       tags,
       ttl,
     };
