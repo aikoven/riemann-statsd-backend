@@ -53,7 +53,7 @@ export const init: StatsdBackend<Config> = (
   }, transport === 'udp' ? 15000 : Infinity);
 
   events.on('flush', (timestamp, metrics) => {
-    const {timers, gauges, counter_rates} = metrics;
+    const {timer_data, gauges, counter_rates} = metrics;
 
     for (const name of Object.keys(gauges)) {
       if (name.startsWith('statsd.')) {
@@ -63,13 +63,15 @@ export const init: StatsdBackend<Config> = (
       queue.put(createEvent(timestamp, name, gauges[name]));
     }
 
-    for (const name of Object.keys(timers)) {
+    for (const name of Object.keys(timer_data)) {
       if (name.startsWith('statsd.')) {
         continue;
       }
 
-      for (const metric of timers[name]) {
-        queue.put(createEvent(timestamp, name, metric));
+      const data = timer_data[name];
+
+      for (const key of Object.keys(data)) {
+        queue.put(createEvent(timestamp, `${name}.${key}`, data[key]));
       }
     }
 
