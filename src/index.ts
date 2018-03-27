@@ -1,3 +1,5 @@
+import {hostname} from 'os';
+
 import {createSocket} from './transport';
 import {Msg, IEvent} from '../proto/Riemann';
 import {createQueue} from './queue';
@@ -9,6 +11,7 @@ interface Config {
     transport?: 'tcp' | 'udp';
     tags?: string[];
     ttl?: number;
+    eventsHost?: string;
   };
 }
 
@@ -26,6 +29,7 @@ export const init: StatsdBackend<Config> = (
     transport = 'udp',
     tags = [],
     ttl,
+    eventsHost = hostname(),
   } = riemann;
 
   if (host == null) {
@@ -35,6 +39,7 @@ export const init: StatsdBackend<Config> = (
 
   function createEvent(time: number, name: string, metric: number): IEvent {
     return {
+      host: eventsHost,
       time,
       state: 'ok',
       service: name,
